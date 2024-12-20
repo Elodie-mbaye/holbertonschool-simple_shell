@@ -25,7 +25,7 @@ void shell_interactive(void)
 		}
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
-		
+
 		args[0] = line;
 		args[1] = NULL;
 
