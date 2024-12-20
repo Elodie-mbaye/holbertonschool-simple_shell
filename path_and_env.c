@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <sys/stat.h>
 /**
  * print_env - prints environment variables
  */
