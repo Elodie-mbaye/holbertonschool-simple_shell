@@ -1,5 +1,5 @@
 #include "shell.h"
-
+#include <stdlib.h>
 /**
  * parse_line - parse a string into multiple strings
  * @line: string to be parsed
@@ -21,15 +21,12 @@ char **parse_line(char *line)
 	token = strtok(line, TOK_DELIM);
 	while (token != NULL)
 	{
-		if (token[0] == '#')
-		{
-			break;
-		}
-		token[i] = token;
+		tokens[i] = token;
 		i++;
+
 		if (i >= bufsize)
 		{
-			bufsize += bufsize;
+			bufsize += 64;
 			tokens = realloc(tokens, bufsize * sizeof(char *));
 			if (!tokens)
 			{

@@ -1,40 +1,40 @@
 #include "shell.h"
+#include <string.h>
+#include <sys/wait.h>
 
 /**
- * execute_args - Maps if command is a builtin or a process
- * @args: Command and its flags
+ * execute_args - execute a command as a process
+ * @args: command and its flags
  *
- * Return: 1 on success, 0 otherwise
+ * Return: 1 if succefull, 0 otherwise
  */
 int execute_args(char **args)
 {
-	char *builtin_func_list[] = {
-		"cd",
-		"env",
-		"help",
-		"exit"
-	};
-
-	int (*builtin_func[])(char **) = {
-		&own_cd,
-		&own_env,
-		&own_help,
-		&own_exit
-	};
-
-	int i = 0;
+	pid_t pid;
+	int status;
 
 	if (args[0] == NULL)
 	{
 		return (-1);
 	}
-	for (; i < (int)(sizeof(builtin_func_list) / sizeof(char *)); i++)
+	pid = fork();
+	if (pid == 0)
 	{
-		if (strcmp(args[0], builtin_func_list[i]) == 0)
+		if (execve(args[0], args, NULL) == -1)
 		{
-			return ((*builtin_func[i])(args));
+			perror("error during child process");
 		}
+		exit(EXIT_FAILURE);
 	}
-
-	return (new_process(args));
+	else if (pid < 0)
+	{
+		perror("forking error");
+	}
+	else
+	{
+		do {
+			waitpid(pid, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
+	return (1);
 }

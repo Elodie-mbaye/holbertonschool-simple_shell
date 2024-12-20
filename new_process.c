@@ -15,18 +15,20 @@ int new_process(char **args)
 	{
 		if (execvp(args[0], args) == -1)
 		{
-			perror("error in new_process: child process");
+			perror("error");
+			exit(EXIT_FAILURE);
 		}
-		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
-		perror("error in new_process: forking");
+		perror("Fork failed");
+		return (-1);
 	}
+	else
+	{
 	do {
 		waitpid(pid, &status, WUNTRACED);
 	} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 }
-
-return (-1);
+return (1);
 }
