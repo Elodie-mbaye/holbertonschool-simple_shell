@@ -15,4 +15,8 @@ int execute_args(char **args);
 int new_process(char **args);
 void shell_no_interactive(void);
 char *read_stream(void);
+int own_cd(char **args);
+int own_exit(char **args);
+int own_env(char **args);
+int own_help(char **args);
 #endif
