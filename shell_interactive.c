@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <unistd.h>
 /**
  * shell_interactive - line interpreter
  *
@@ -6,19 +7,29 @@
  */
 void shell_interactive(void)
 {
-	char *line;
-	char **args;
-	int status = -1;
+	char *line = NULL;
+	char *args[2];
+	size_t len = 0;
+	ssize_t read;
 
-	do {
-		printf("simple_shell$");
+	while (1)
+	{
+		write(STDOUT_FILENO, "($) ", 4);
+		read = getline(&line, &len, stdin);
 
-		line = read_line();
-		args = parse_line(line);
-		status = execute_args(args);
+		if (read == -1)
+		{
+			free(line);
+			write(STDOUT_FILENO, "\n", 1);
+			break;
+		}
+		if (line[read - 1] == '\n')
+			line[read - 1] = '\0';
+		
+		args[0] = line;
+		args[1] = NULL;
 
-		free(line);
-		free(args);
-
-	} while (status);
+		if (execute_args(args) == -1)
+			perror("Error");
+	}
 }
