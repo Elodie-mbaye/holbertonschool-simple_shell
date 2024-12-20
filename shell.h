@@ -12,4 +12,5 @@ char *read_line(void);
 char **parse_line(char *line);
 int execute_args(char **args);
 int new_process(char **args);
+void shell_no_interactive(void);
 #endif
