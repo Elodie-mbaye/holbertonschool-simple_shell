@@ -22,4 +22,7 @@ char *read_stream(void);
 void print_env(void);
 char *_getenv(const char *env_var);
 char *is_a_command(char *args);
+char *_strncpy(char *dest, char *src, int n);
+char *_strncat(char *dest, char *src, int n);
+char *_strchr(char *s, char c);
 #endif
