@@ -16,6 +16,9 @@
 extern char **environ;
 char **parse_command(char *line);
 void execute_command(char **args);
+int _myexit(char **args);
+int _mycd(char **args);
+int _myhelp(char **args);
 
 
 
