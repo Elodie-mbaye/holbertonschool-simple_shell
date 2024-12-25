@@ -22,5 +22,6 @@ char *read_stream(void);
 void print_env(void);
 char *_getenv(const char *env_var);
 char *is_a_command(char *args);
-void exit_shell(char *line, char **args);
+void exit_shell(char *line);
+void free_array(char **array);
 #endif
