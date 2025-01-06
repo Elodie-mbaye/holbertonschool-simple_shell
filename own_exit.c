@@ -8,14 +8,16 @@
  */
 int own_exit(char **args)
 {
-	/* exit with status */
+	int status = 0;
+
 	if (args[1])
 	{
-		return (atoi(args[1]));
+		status = atoi(args[1]);
+		if (status < 0)
+		{
+			fprintf(stderr, "exit: invalid status: %s\n", args[1]);
+			return (1);
+		}
 	}
-	/* exit success */
-	else
-	{
-		return (0);
-	}
+	exit(status);
 }
