@@ -12,7 +12,8 @@ void shell_interactive(void)
 	int status = -1;
 
 	do {
-		printf("simple_prompt$ ");
+		printf("$ ");
+
 		line = read_line();
 		args = parse_line(line);
 		status = execute_args(args);
@@ -20,9 +21,5 @@ void shell_interactive(void)
 		free(line);
 		free(args);
 
-		if (status >= 0)
-		{
-			exit(status);
-		}
 	} while (status == -1);
 }
