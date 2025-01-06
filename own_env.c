@@ -9,19 +9,12 @@
 int own_env(char **args)
 {
 	int i = 0;
-
 	(void)args;
 
 	while (environ[i])
 	{
-		if (write(STDOUT_FILENO, environ[i], strlen(environ[i])) == -1)
-		{
-			return (0);
-		}
-		if (write(STDOUT_FILENO, "\n", 1) == -1)
-		{
-			return (0);
-		}
+		write(STDOUT_FILENO, environ[i], strlen(environ[i]));
+		write(STDOUT_FILENO, "\n", 1);
 		i++;
 	}
 	return (1);
