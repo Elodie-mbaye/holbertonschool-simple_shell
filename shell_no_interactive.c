@@ -1,27 +1,27 @@
 #include "shell.h"
+
 /**
- * shell_no_interactive - line interpreter
+ * shell_no_interactive - unix command line interpreter
  *
  * Return: void
- *
  */
 void shell_no_interactive(void)
 {
 	char *line;
-	char *args[2];
-	size_t len = 0;
-	ssize_t read;
+	char **args;
+	int status = -1;
 
-	while ((read = getline(&line, &len, stdin)) != -1)
-	{
-		if (line[read - 1] == '\n')
-			line[read - 1] = '\0';
+	do {
+		line = read_stream();
+		args = split_line(line);
+		status = execute_args(args);
 
-		args[0] = line;
-		args[1] = NULL;
+		free(line);
+		free(args);
 
-		if (execute_args(args) == -1)
-			perror("Error");
-	}
-	free(line);
+		if (status >= 0)
+		{
+			exit(status);
+		}
+	} while (status == -1);
 }
