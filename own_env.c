@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
- * own_env - function that prints enviroment variables
- * @args: arguments
+ * own_env - Prints the current environment variables.
+ * @args: Array of arguments (unused).
  *
- * Return: 1 on success, 0 otherwise
+ * Return: 1 on success, 0 on failure.
  */
 int own_env(char **args)
 {
@@ -16,10 +16,12 @@ int own_env(char **args)
 	{
 		if (write(STDOUT_FILENO, environ[i], strlen(environ[i])) == -1)
 		{
-			perror("env");
 			return (0);
 		}
-		write(STDOUT_FILENO, "\n", 1);
+		if (write(STDOUT_FILENO, "\n", 1) == -1)
+		{
+			return (0);
+		}
 		i++;
 	}
 	return (1);
