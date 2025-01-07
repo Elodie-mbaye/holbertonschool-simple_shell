@@ -1,83 +1,75 @@
-#include "shell.h"
-#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 /**
- * print_env - prints environment variables
- */
-void print_env(void)
-{
-	char **env = environ;
-
-	while (*env)
-	{
-		printf("%s\n", *env);
-		env++;
-	}
-}
-
-/**
- * _getenv - retrieves the value of an environment variable
- * @env_var: Name of the variable value
+ * get_path_env - Retrieves the value of the PATH environment variable.
  *
- * Return: variable value or NULL if not found
+ * Return: Pointer to the value of PATH, or NULL if not found.
  */
-char *_getenv(const char *env_var)
+char *get_path_env(void)
 {
-	char **env = environ;
 	int i = 0;
-	char *key;
+	char **environ;
 
-	while (env[i])
+	while (environ[i] != NULL)
 	{
-		key = strtok(env[i], "=");
-		if (strcmp(env_var, key) == 0)
-			return (strtok(NULL, "\n"));
+		if (strncmp(environ[i], "PATH=", 5) == 0)
+		{
+			return (environ[i] + 5);
+		}
 		i++;
 	}
+	printf("PATH environment variable not found\n");
 	return (NULL);
 }
-
 /**
- * is_a_command - Checks is a command is executable or finds is way
- * @args:name of the command
+ * get_command_path - Searches for an executable file in
+ * the directories of PATH.
+ * @command: Name of the file or command to search for.
  *
- * Return: string of the command or NULL if not found
+ * Return: Full path to the executable file, or NULL if not found.
  */
-char *is_a_command(char *args)
+char *get_command_path(char *command)
 {
-	char *env = _getenv("PATH"), *token, *result, *tmp;
-	struct stat st;
+	char *path = get_path_env();
+	char *token = NULL, *full_path = NULL;
+	char *path_copy;
 
-	if (!env)
+	if (path == NULL)
 		return (NULL);
-	if (access(args, X_OK) == 0)
-		return (strdup(args));
 
-	token = strtok(env, ":");
+	path_copy = strdup(path);
+	if (path_copy == NULL)
+		return (NULL);
 
-	while (token)
+	if (access(command, X_OK) == 0)
 	{
-		tmp = malloc(strlen(token) + strlen(args) + 2);
-
-		if (!tmp)
+		free(path_copy);
+		return (strdup(command));
+	}
+	token = strtok(path_copy, ":");
+	while (token != NULL)
+	{
+		full_path = malloc(strlen(token) + strlen(command) + 2);
+		if (full_path == NULL)
 		{
-			perror("Allocation failed");
+			free(path_copy);
 			return (NULL);
 		}
+		strcpy(full_path, token);
+		strcat(full_path, "/");
+		strcat(full_path, command);
 
-		strcpy(tmp, token);
-		strcat(tmp, "/");
-		strcat(tmp, args);
-
-		if (stat(tmp, &st) == 0)
+		if (access(full_path, X_OK) == 0)
 		{
-			result = strdup(tmp);
-			free(tmp);
-			return (result);
+			free(path_copy);
+			return (full_path);
 		}
-		free(tmp);
-
+		free(full_path);
 		token = strtok(NULL, ":");
 	}
-
+	free(path_copy);
+	printf("%s: not found\n", command);
 	return (NULL);
 }
