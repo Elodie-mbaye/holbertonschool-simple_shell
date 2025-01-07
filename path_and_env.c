@@ -1,76 +1,90 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "shell.h"
 
 /**
- * get_path_env - Retrieves the value of the PATH environment variable.
+ * print_env - print the environment
  *
- * @environ: Local pointer to the environment variables
- * Return: Pointer to the value of PATH, or NULL if not found.
+ * Return: void
  */
-char *get_path_env(char **environ)
+void print_env(void)
 {
-	int i = 0;
+	char **env = environ;
 
-	while (environ[i] != NULL)
+	while (*env)
 	{
-		if (strncmp(environ[i], "PATH=", 5) == 0)
-		{
-			return (environ[i] + 5);
-		}
-		i++;
+		printf("%s\n", *env);
+		env++;
 	}
-	printf("PATH environment variable not found\n");
-	return (NULL);
 }
 /**
- * get_command_path - Searches for an executable file in
- * the directories of PATH.
- * @command: Name of the file or command to search for.
+ * _getenv - Retrieves the value of an environment variable by its name.
  *
- * Return: Full path to the executable file, or NULL if not found.
+ * @env_var: The name of the environment variable to look for.
+ *
+ * Return: NULL if no match is found, or a pointer to
+ * the value of the variable.
  */
-char *get_command_path(char *command)
+char *_getenv(const char *env_var)
 {
-	char *path = NULL;
-	char *token = NULL, *full_path = NULL;
-	char *path_copy;
+	char **env = environ;
+	size_t len = strlen(env_var);
 
-	if (path == NULL)
-		return (NULL);
-
-	path_copy = strdup(path);
-	if (path_copy == NULL)
-		return (NULL);
-
-	if (access(command, X_OK) == 0)
+	while (*env)
 	{
-		free(path_copy);
-		return (strdup(command));
+		if (strncmp(*env, env_var, len) == 0 && (*env)[len] == '=')
+			return (*env + len + 1);
+		env++;
 	}
-	token = strtok(path_copy, ":");
-	while (token != NULL)
-	{
-		full_path = malloc(strlen(token) + strlen(command) + 2);
-		if (full_path == NULL)
-		{
-			free(path_copy);
-			return (NULL);
-		}
-		strcpy(full_path, token);
-		strcat(full_path, "/");
-		strcat(full_path, command);
+	return (0);
+}
 
-		if (access(full_path, X_OK) == 0)
-		{
-			free(path_copy);
-			return (full_path);
-		}
-		free(full_path);
-		token = strtok(NULL, ":");
+/**
+ * is_a_command - Checks if the input corresponds to an executable command
+ * by using the PATH environment variable and the access function.
+ *
+ * @args: The command to check, provided as a string.
+ *
+ * Return: NULL if the command is not found or an error occurs.
+ * Otherwise, returns the full path to the executable.
+ */
+char *is_a_command(char *args)
+{
+	char *path, *tmp, *directory, *executable_path;
+	struct stat st;
+
+	if (access(args, X_OK) == 0)
+		return (strdup(args));
+
+	path = _getenv("PATH");
+	if (!path)
+		return (0);
+
+
+	tmp = strdup(path);
+	if (!tmp)
+		return (0);
+
+	executable_path = malloc(4096);
+	if (!executable_path)
+	{
+		free(tmp);
+		return (0);
 	}
-	free(path_copy);
-	printf("%s: not found\n", command);
-	return (NULL);
+
+
+	directory = strtok(tmp, ":");
+	while (directory)
+	{
+		sprintf(executable_path, "%s/%s", directory, args);
+
+		if (stat(executable_path, &st) == 0 && access(executable_path, X_OK) == 0)
+		{
+			free(tmp);
+			return (executable_path);
+		}
+		directory = strtok(NULL, ":");
+	}
+
+	free(executable_path);
+	free(tmp);
+	return (0);
 }

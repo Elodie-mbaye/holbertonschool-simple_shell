@@ -11,34 +11,39 @@
 int execute_args(char **args)
 {
 	int status;
-	char *env[] = {NULL};
+	char *path;
 	pid_t pid;
 
-	if (args == NULL)
-		return (-1);
+	if (!args[0])
+		return (1);
 
+	if (strcmp(args[0], "exit") == 0)
+		return (0);
 
-	pid = fork();
+	path = is_a_command(args[0]);
 
-	if (pid == -1)
+	if (!path)
 	{
-		free(args);
-		perror("Error");
-		_exit(-1);
+		fprintf(stderr, "hsh %s: Error&\n", args[0]);
+		return (127);
 	}
+	pid = fork();
 
 	if (pid == 0)
 	{
-		if (execve(args[0], args, env) == -1)
-		{
-			free(args);
-			perror("Execution failed");
-			_exit(127);
-		}
+		if (execve(path, args, environ) == -1)
+			perror("hsh");
+		exit(EXIT_FAILURE);
 	}
-
+	else if (pid < 0)
+		perror("hsh");
 	else
-		wait(&status);
+	{
+		do {
+			waitpid(pid, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
+	free(path);
 
 	return (0);
 }

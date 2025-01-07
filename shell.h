@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 extern char **environ;
 
@@ -18,7 +19,8 @@ char **parse_line(char *line);
 int execute_args(char **args);
 void shell_no_interactive(void);
 char *read_stream(void);
-char *get_command_path(char *command);
-char *get_path_env(char **environ);
+char *is_a_command(char *args);
+char *_getenv(const char *env_var);
+void print_env(void);
 void free_array(char **array);
 #endif
