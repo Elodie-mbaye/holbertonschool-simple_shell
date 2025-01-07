@@ -14,11 +14,11 @@
 #include <errno.h>
 
 extern char **environ;
-char **parse_command(char *line);
-void execute_command(char **args);
-int _myexit(char **args);
-int _mycd(char **args);
-int _myhelp(char **args);
+#define PROMPT "#cisfun$ "
+void execute_command(char *line);
+char *find_in_path(char *command);
+char **split_line(char *line);
+void print_env(void);
 
 
 
