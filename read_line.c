@@ -14,10 +14,10 @@ char *read_line(void)
 
 	if (getline(&line, &bufsize, stdin) == -1)
 	{
-		if (feof(stdin))
+		if (!line)
 		{
 			free(line);
-			return (NULL);
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{

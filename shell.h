@@ -16,16 +16,10 @@ void  shell_no_interactive(void);
 char *read_line(void);
 char **parse_line(char *line);
 int execute_args(char **args);
-int own_cd(char **args);
-int new_process(char **args);
-int own_env(char **args);
-int own_exit(char **args);
-int own_help(char **args);
 void shell_no_interactive(void);
 char *read_stream(void);
 void print_env(void);
 char *_getenv(const char *env_var);
 char *is_a_command(char *args);
-void exit_shell(char *line);
 void free_array(char **array);
 #endif

@@ -12,16 +12,12 @@ void shell_no_interactive(void)
 	int status = -1;
 
 	do {
-		line = read_stream();
+		line = read_line();
 		args = parse_line(line);
 		status = execute_args(args);
 
 		free(line);
 		free(args);
 
-		if (status >= 0)
-		{
-			exit(status);
-		}
 	} while (status == -1);
 }

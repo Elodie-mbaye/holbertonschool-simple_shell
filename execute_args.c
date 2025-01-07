@@ -1,21 +1,51 @@
 #include "shell.h"
+#include <string.h>
+#include <sys/wait.h>
 
 /**
- * execute_args - Executes built-in or external commands.
- * @args: Command and its arguments.
+ * execute_args - execute a command as a process
+ * @args: command and its flags
  *
- * Return: 1 to continue, 0 to exit.
+ * Return: 1 if succefull, 0 otherwise
  */
 int execute_args(char **args)
 {
-	if (!args || !args[0])
+	pid_t pid;
+	int status;
+
+	char *path
+
+	if (!args[0])
 		return (1);
 
 	if (strcmp(args[0], "exit") == 0)
-		return (own_exit(args));
+		return (0);
+	else if (strcmp(args[0], "env") == 0)
+		print_env();
 
-	if (strcmp(args[0], "env") == 0)
-		return (own_env(args));
+	else
+	{
+		path = is_a_command(args[0]);
 
-	return (new_process(args));
+		pid = fork();
+
+		if (pid == 0)
+		{
+			if (execve(args[0], args, NULL) == -1)
+				perror("error during child process");
+			exit(EXIT_FAILURE);
+		}
+		else if (pid < 0)
+			perror("error");
+		else
+		{
+			do {
+				waitpid(pid, &status, WUNTRACED);
+			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		}
+
+		if (path)
+			free(path);
+	}
+	return (1);
 }
