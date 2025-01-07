@@ -14,7 +14,7 @@
 #include <errno.h>
 
 extern char **environ;
-#define PROMPT "#cisfun$ "
+#define PROMPT "$ "
 void execute_command(char *line);
 char *find_in_path(char *command);
 char **split_line(char *line);
