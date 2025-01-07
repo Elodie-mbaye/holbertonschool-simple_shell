@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 /**
- * execute - Execute a command and its arguments in a separate process.
+ * execute_args - Execute a command and its arguments in a separate process.
  * @args: Array of strings containing the command and arguments to execute.
  *
  * Return: 0 on success, -1 or 127 on failure.
