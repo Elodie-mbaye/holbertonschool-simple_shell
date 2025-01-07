@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
 /**
  * get_path_env - Retrieves the value of the PATH environment variable.
  *
+ * @environ: Local pointer to the environment variables
  * Return: Pointer to the value of PATH, or NULL if not found.
  */
-char *get_path_env(void)
+char *get_path_env(char **environ)
 {
 	int i = 0;
-	char **environ;
 
 	while (environ[i] != NULL)
 	{
@@ -32,7 +33,7 @@ char *get_path_env(void)
  */
 char *get_command_path(char *command)
 {
-	char *path = get_path_env();
+	char *path = NULL;
 	char *token = NULL, *full_path = NULL;
 	char *path_copy;
 

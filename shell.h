@@ -18,8 +18,7 @@ char **parse_line(char *line);
 int execute_args(char **args);
 void shell_no_interactive(void);
 char *read_stream(void);
-void print_env(void);
-char *_getenv(const char *env_var);
-char *is_a_command(char *args);
+char *get_command_path(char *command);
+char *get_path_env(char **environ);
 void free_array(char **array);
 #endif
