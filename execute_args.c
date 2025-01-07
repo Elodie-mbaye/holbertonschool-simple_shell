@@ -13,7 +13,7 @@ int execute_args(char **args)
 	pid_t pid;
 	int status;
 
-	char *path
+	char *path = NULL;
 
 	if (!args[0])
 		return (1);
