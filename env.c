@@ -1,4 +1,20 @@
 #include "shell.h"
+
+/**
+ * print_env - print the environment
+ *
+ * Return: void
+ */
+void print_env(void)
+{
+	char **env = environ;
+
+	while (*env)
+	{
+		printf("%s\n", *env);
+		env++;
+	}
+}
 /**
  * _getenv - find the name of a variable
  * @name: the name of the variable

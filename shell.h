@@ -16,7 +16,6 @@ char *read_line(void);
 char **parse_line(char *line);
 int execute_args(char **args);
 char *is_a_command(char *args);
-char *_getenv(const char *env_var);
 void print_env(void);
 void free_array(char **array);
 int main(void);
