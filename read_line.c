@@ -11,20 +11,12 @@ char *read_line(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
+	ssize_t line_length = getline(&line, &bufsize, stdin);
 
-	if (getline(&line, &bufsize, stdin) == -1)
+	if (line_length == -1)
 	{
-		if (!line)
-		{
-			free(line);
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			free(line);
-			perror("error while reading the line from stdin");
-			exit(EXIT_FAILURE);
-		}
+		free(line);
+		exit(EXIT_SUCCESS);
 	}
 
 	return (line);

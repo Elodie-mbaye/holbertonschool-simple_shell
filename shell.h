@@ -12,19 +12,12 @@
 
 extern char **environ;
 
-void  shell_interactive(void);
-void  shell_no_interactive(void);
 char *read_line(void);
 char **parse_line(char *line);
 int execute_args(char **args);
-void shell_no_interactive(void);
-char *read_stream(void);
 char *is_a_command(char *args);
 char *_getenv(const char *env_var);
 void print_env(void);
 void free_array(char **array);
 int main(void);
-void print_prompt(void);
-char *read_command(void);
-void execute_command(char *line);
 #endif
