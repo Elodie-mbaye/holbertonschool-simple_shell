@@ -1,23 +1,22 @@
 #include "shell.h"
 
 /**
- * shell_no_interactive - unix command line interpreter
+ * shell_no_interactive - Handles the shell in non interactive mode
  *
  * Return: void
  */
 void shell_no_interactive(void)
 {
 	char *line;
-	char **args;
-	int status = -1;
+	size_t len = 0;
 
-	do {
-		line = read_line();
-		args = parse_line(line);
-		status = execute_args(args);
+	while (getline(&line, &len, stdin) != -1)
+	{
+		if (line[strlen(line) - 1] == '\n')
+			line[strlen(line) - 1] = '\0';
 
-		free(line);
-		free(args);
+		execute_command(line);
+	}
 
-	} while (status == -1);
+	free(line);
 }

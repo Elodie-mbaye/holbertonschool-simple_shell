@@ -7,19 +7,24 @@
  */
 void shell_interactive(void)
 {
-	char *line;
-	char **args;
-	int status = -1;
+	char *line = NULL;
+	size_t len = 0;
 
-	do {
-		printf("$ ");
+	while (1)
+	{
+		write(STDOUT_FILENO, "#cisfun$ ", 9);
 
-		line = read_line();
-		args = parse_line(line);
-		status = execute_args(args);
+		if (getline(&line, &len, stdin) == -1)
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			free(line);
+			break;
+		}
 
-		free(line);
-		free(args);
+		if (line[strlen(line) - 1] == '\n')
+			line[strlen(line) - 1] = '\0';
 
-	} while (status == -1);
+		execute_command(line);
+	}
+	free(line);
 }
