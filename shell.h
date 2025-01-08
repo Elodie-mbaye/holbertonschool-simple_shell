@@ -23,4 +23,5 @@ char *is_a_command(char *args);
 char *_getenv(const char *env_var);
 void print_env(void);
 void free_array(char **array);
+char *input_read(void);
 #endif
