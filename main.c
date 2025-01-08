@@ -1,40 +1,68 @@
 #include "shell.h"
 
-/**
- * main - Entry point of the shell
- * Return: 0 on success, 1 on error
- */
 int main(void)
 {
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t nread;
+    char *line = NULL;
+    char **args = NULL;
+    size_t len = 0;
+    ssize_t nread;
+    pid_t pid;
+    int i;
 
-	while (1)
-	{
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, PROMPT, strlen(PROMPT));
+    while (1)
+    {
+        printf("$ ");
+        nread = getline(&line, &len, stdin);
+        if (nread == -1)
+        {
+            free(line);
+            break;
+        }
 
-		nread = getline(&line, &len, stdin);
-		if (nread == -1)
-			break;
+        line[strcspn(line, "\n")] = '\0';
+	
+	args = split_line(line);
+        if (args[0] == NULL)
+        {
+            free(args);
+            continue;
+        }
 
-		line[nread - 1] = '\0';
-		if (strlen(line) > 0)
-		{
-			if (strcmp(line, "exit") == 0)
-				break;
+        if (strcmp(args[0], "exit") == 0)
+        {
+            free(args);
+            free(line);
+            exit(EXIT_SUCCESS);
+        }
+        if (strcmp(args[0], "env") == 0)
+        {
+            for (i = 0; environ[i]; i++)
+	    {
+                printf("%s\n", environ[i]);
+	    }
+            free(args);
+            continue;
+        }
 
-			if (strcmp(line, "env") == 0)
-			{
-				print_env();
-				continue;
-			}
+        pid = fork();
+        if (pid == 0)
+        {
+            if (execvp(args[0], args) == -1)
+                perror("Error");
+            exit(EXIT_FAILURE);
+        }
+        else if (pid > 0)
+        {
+            wait(NULL);
+        }
+        else
+        {
+            perror("Fork failed");
+        }
 
-			execute_command(line);
-		}
-	}
+        free(args);
+    }
 
-	free(line);
-	return (0);
+    free(line);
+    return 0;
 }

@@ -1,10 +1,5 @@
 #include "shell.h"
 
-/**
- * split_line - Splits a line into an array of words
- * @line: The input line
- * Return: Array of strings (words)
- */
 char **split_line(char *line)
 {
 	int bufsize = 64, i = 0;
@@ -13,7 +8,7 @@ char **split_line(char *line)
 
 	if (!tokens)
 	{
-		perror("malloc");
+		perror("Allocation error");
 		exit(EXIT_FAILURE);
 	}
 
@@ -27,7 +22,7 @@ char **split_line(char *line)
 			tokens = realloc(tokens, bufsize * sizeof(char *));
 			if (!tokens)
 			{
-				perror("realloc");
+				perror("Reallocation error");
 				exit(EXIT_FAILURE);
 			}
 		}

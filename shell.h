@@ -15,10 +15,12 @@
 
 extern char **environ;
 #define PROMPT "$ "
-void execute_command(char *line);
+int execute_command(char **args);
 char *find_in_path(char *command);
 char **split_line(char *line);
 void print_env(void);
+void change_directory(char *path);
+char *get_path(char *command);
 
 
 
