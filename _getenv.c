@@ -9,7 +9,7 @@ void print_env(void)
 	int i;
 
 	for (i = 0; environ[i]; i++)
-		printf("%s\n", enriron[i]);
+		printf("%s\n", environ[i]);
 }
 /**
  * _getenv - function to get the environement variable

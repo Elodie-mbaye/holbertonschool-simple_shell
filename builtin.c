@@ -1,46 +1,35 @@
 #include "shell.h"
+
 /**
- * built - manages the excetion of internal shell commands
- * @args: array of strings representing the command
- *
- * Return: Null or 1
+ * handle_builtin_commands - Handles built-in commands
+ * @args: Array of command arguments
+ * @user_input: Raw user input
  */
-int built(char **args)
+void handle_builtin_commands(char **args, char *user_input)
 {
+	if (args[0] != NULL)
+	{
 
-	if (args == NULL || args[0] == NULL)
-		return (0);
+		if (strncmp(args[0], "exit", 4) == 0)
+		{
+			int status = 0;
 
-	if (strcmp(args[0], "env") == 0)
-	{
-		print_env();
-		return (1);
-	}
+			if (args[1] != NULL)
+				status = atoi(args[1]);
 
-	if (strcmp(args[0], "exit") == 0 && args[1] != NULL)
-	{
-		return (1);
-	}
-	if (strcmp(args[0], "exits") == 0)
-	{
-		free(args);
-		exit(0);
-	}
-	if (strcmp(args[0], "cd") == 0)
-	{
-		change_directory(args[1]);
-		return (1);
-	}
-	return (0);
-}
-/**
- * change_directory - change the repertory
- * @path: root repertory
- */
-void change_directory(char *path)
-{
-	if (path == NULL || chdir(path) != 0)
-	{
-		perror("Error change repertory");
+			free_args(args);
+			free(user_input);
+			exit(status);
+		}
+
+		else if (strncmp(args[0], "env", 3) == 0)
+		{
+			print_env();
+		}
+		else
+		{
+			execute_command(args);
+		}
 	}
 }
+

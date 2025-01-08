@@ -8,18 +8,18 @@
 int main(void)
 {
 	char **args = NULL;
-	char *_input = NULL;
+	char *user_input = NULL;
 
 	signal(SIGINT, _signint);
 
 	while (1)
 	{
 		print_prompt();
-		_input = read_line();
-		args = tokenize(_input);
-		_builtin_commands(args, _input);
+		user_input = read_line();
+		args = tokensize(user_input);
+		handle_builtin_commands(args, user_input);
 		free_args(args);
-		free(_input);
+		free(user_input);
 	}
 	return (0);
 }

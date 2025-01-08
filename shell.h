@@ -17,7 +17,7 @@ char **tokensize(char *line);
 void free_args(char **args);
 void execute_command(char **args);
 char *find_command_path(char *command);
-int built(char **args);
+void handle_builtin_commands(char **args, char *user_input);
 void print_env(void);
 void print_prompt(void);
 int main(void);
