@@ -6,13 +6,10 @@
  */
 void print_env(void)
 {
-	char **env = environ;
+	int i;
 
-	while (*env)
-	{
-		printf("%s\n", *env);
-		env++;
-	}
+	for (i = 0; environ[i]; i++)
+		printf("%s\n", enriron[i]);
 }
 /**
  * _getenv - function to get the environement variable
