@@ -20,4 +20,5 @@ char *_getenv(const char *env_var);
 void print_env(void);
 void free_array(char **array);
 int main(void);
+char *_getenv(const char *name);
 #endif
