@@ -7,12 +7,11 @@
  */
 void print_env(void)
 {
-	char **env = environ;
+	int i;
 
-	while (*env)
+	for (i = 0; environ[i]; i++)
 	{
-		printf("%s\n", *env);
-		env++;
+		printf("%s\n", environ[i]);
 	}
 }
 /**
