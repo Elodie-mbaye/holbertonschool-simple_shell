@@ -1,25 +1,35 @@
 #include "shell.h"
-
 /**
- * _getenv - function to get the value of an env variable
- * @name: name of the values
- * Return: pointer to the value of the variable, NULL il failed
+ * print_env - print the current environment variables
+ *
+ * Return: 0 if successeful, otherwise 1
+ */
+void print_env(void)
+{
+	char **env = environ;
+
+	while (*env)
+	{
+		printf("%s\n", *env);
+		env++;
+	}
+}
+/**
+ * _getenv - function to get the environement variable
+ * @name: name of the environment variable
+ *
+ * Return: 0 if successful, otherwise 1
  */
 char *_getenv(const char *name)
 {
 	int i;
-	size_t name_len;
+	size_t len = strlen(name);
 
-	if (name == NULL || environ == NULL)
-		return (NULL);
-
-	name_len = strlen(name);
-
-	for (i = 0 ; environ[i] != NULL ; i++)
+	for (i = 0; environ[i]; i++)
 	{
-		if (strncmp(environ[i], name, name_len) == 0 && environ[i][name_len] == '=')
+		if (strncmp(environ[i], name, len) == 0 && environ[i][len] == '=')
 		{
-			return (&environ[i][name_len + 1]);
+			return (environ[i] + len + 1);
 		}
 	}
 	return (NULL);
