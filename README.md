@@ -9,6 +9,8 @@ Requirements
 General
 •Allowed editors: vi, vim, emacs
 •All your files will be compiled on Ubuntu 20.04 LTS using gcc, using the options -Wall -Werror -Wextra -pedantic -std=gnu89
+•Allowed editors: vi, vim, emacs
+•All your files will be compiled on Ubuntu 20.04 LTS using gcc, using the options -Wall -Werror -Wextra -pedantic -std=gnu89
 •All your files should end with a new line
 •A README.md file, at the root of the folder of the project is mandatory
 •Your code should use the Betty style. It will be checked using betty-style.pl and betty-doc.pl
@@ -55,8 +57,6 @@ List of allowed functions and system calls+
 •wait4 (man 2 wait4)
 •write (man 2 write)
 
----
-
 ## Features
 •Displays a prompt for user input.
 •Reads user commands from standard input.
@@ -68,7 +68,9 @@ List of allowed functions and system calls+
 •Manages common errors during command execution.
 
 ##files
+
 File            Description
+File: Description
 main.c: Entry point of the program. Initializes the shell and runs the main loop.
 print_prompt.c: Handles the display of the shell prompt.
 read_line.c: Reads user input from the command line.
@@ -77,8 +79,10 @@ find_command_path.c: Searches for the full path of commands based on the PATH en
 execute_command.c: Executes user-entered commands.
 builtin.c: Implements built-in commands such as exit and env.
 _getenv.c: Provides a function to access environment variables.
-signal.c: Handles signals to ensure the program is not interrupted by signals like SIGINT.
+signal.c: Handles signals to ensure the program is not interrupted by signals like SIGIN
 shell.h: Header file containing function prototypes, constants, and necessary inclusions for the project.
+shell.h	Header file: containing function prototypes, constants, and necessary inclusions for the project.
+>>>>>>> 4a37b60 (Update README.md)
 man_1_simple_shell: Manual page describing the functionality and usage of the shell.
 
 
