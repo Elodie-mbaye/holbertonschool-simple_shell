@@ -16,8 +16,18 @@ char *read_line(void)
 	if (line_length == -1)
 	{
 		free(line);
-		exit(EXIT_SUCCESS);
+
+		if (feof(stdin))
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			exit(EXIT_SUCCESS);
+		}
+		perror("getline");
+		exit(EXIT_FAILURE);
 	}
+
+	if (line[line_length - 1] == '\n')
+		line[line_length - 1] = '\0';
 
 	return (line);
 }

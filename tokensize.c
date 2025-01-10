@@ -19,7 +19,7 @@ char **tokensize(char *line)
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(line, " \t\n");
+	token = strtok(user_input, " \t\n");
 	while (token != NULL)
 	{
 		tokens[i++] = strdup(token);

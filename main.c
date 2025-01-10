@@ -17,6 +17,14 @@ int main(void)
 		print_prompt();
 		user_input = read_line();
 		args = tokensize(user_input);
+
+		if (args[0] == NULL)
+		{
+			free_args(args);
+			free(user_input);
+			continue;
+		}
+
 		handle_builtin_commands(args, user_input);
 		free_args(args);
 		free(user_input);
