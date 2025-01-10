@@ -8,9 +8,7 @@ The **Simple Shell** project is a custom implementation of a command-line interp
 Requirements
 General
 •Allowed editors: vi, vim, emacs
-•All your files will be compiled on Ubuntu 20.04 LTS using gcc, using the options -Wall -Werror -Wextra -pedantic -std=gnu89
-•Allowed editors: vi, vim, emacs
-•All your files will be compiled on Ubuntu 20.04 LTS using gcc, using the options -Wall -Werror -Wextra -pedantic -std=gnu89
+•All your files will be compiled on Ubuntu 20.04 LTS using gcc
 •All your files should end with a new line
 •A README.md file, at the root of the folder of the project is mandatory
 •Your code should use the Betty style. It will be checked using betty-style.pl and betty-doc.pl
@@ -18,6 +16,7 @@ General
 •No more than 5 functions per file
 •All your header files should be include guarded
 •Use system calls only when you need to (why?)
+
 List of allowed functions and system calls+
 •all functions from string.h
 •access (man 2 access)
@@ -81,8 +80,6 @@ builtin.c: Implements built-in commands such as exit and env.
 _getenv.c: Provides a function to access environment variables.
 signal.c: Handles signals to ensure the program is not interrupted by signals like SIGIN
 shell.h: Header file containing function prototypes, constants, and necessary inclusions for the project.
-shell.h	Header file: containing function prototypes, constants, and necessary inclusions for the project.
->>>>>>> 4a37b60 (Update README.md)
 man_1_simple_shell: Manual page describing the functionality and usage of the shell.
 
 
