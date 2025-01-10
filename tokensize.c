@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * tokenize - Splits user input into command arguments
+ * tokensize - Splits user input into command arguments
  * @line: User input string
  *
  * Return: Array of arguments
@@ -19,7 +19,7 @@ char **tokensize(char *line)
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(user_input, " \t\n");
+	token = strtok(line, " \t\n");
 	while (token != NULL)
 	{
 		tokens[i++] = strdup(token);

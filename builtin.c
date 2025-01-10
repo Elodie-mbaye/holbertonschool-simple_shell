@@ -7,20 +7,29 @@
  */
 void handle_builtin_commands(char **args, char *user_input)
 {
+	int status = 0;
+
 	if (args[0] != NULL)
 	{
 
-		if (strncmp(args[0], "exit") == 0)
+		if (strncmp(args[0], "exiti", 4) == 0)
 		{
+			if (args[1] != NULL)
+				status = atoi(args[1]);
+
 			free_args(args);
 			free(user_input);
-			exit(EXIT_SUCCESS);
+			exit(status);
 		}
 
-		if (strncmp(args[0], "env") == 0)
+		else if (strncmp(args[0], "env", 3) == 0)
 		{
 			print_env();
 		}
-		execute_command(args);
+
+		else
+		{
+			execute_command(args);
+		}
 	}
 }
