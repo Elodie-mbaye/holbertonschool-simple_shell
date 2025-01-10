@@ -1,1 +1,106 @@
-the manuel page
+.TH SIMPLE_SHELL "January, 2025" "Holberton School Project"
+.SH NAME
+simple_shell \- simple UNIX command-line interpreter
+
+.SH SYNOPSIS
+.B ./hsh
+
+.SH DESCRIPTION
+The
+.B simple_shell
+is a custom UNIX command-line interpreter designed to execute user commands in a simple and controlled environment.
+
+The shell processes commands without arguments and execites them using the
+.B exceve
+system call. Additionally, it provides built-in commands such as
+.B env
+to prints the current environment variable
+.B exit
+to terminate the shell session.
+
+.SH BUILT-IN COMMANDS
+.TP
+.B env
+Prints all environment variables.
+.EX
+$ env
+PATH=/home/USER/bin:/home/USER/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/game
+$
+.EE
+
+.TP
+.B exit
+Terminates the shell session.
+.EX
+$ exit
+.EE
+
+
+.SH FEATURES
+.TP
+.B Prompt
+Displays a prompt, indicating readiness for user input.
+.TP
+.B Command Execution
+Executes external commands by searching for them in directories specified by the
+.B PATH
+environment variable.
+.TP
+.B Error handling
+Displays an error message if a command is not found or cannot be excused.
+.EX
+$ invalidcommand
+./hsh: invalidcommand: not found
+$
+.EE
+.TP
+.B EOF Handling
+Exits the shell gracefully when the user enters
+.B ctrl+D.
+
+.SH RETURN VALUE
+The
+.B simple_shell
+returns:
+.IP
+- 0 on successful execution.
+.IP
+- Non-zero on errors, such as invalid commands.
+
+.SH EXAMPLES
+.B Example 1:
+Running a valid command:
+.PP
+.EX
+$ /bin/ls
+file1 file2 file3
+$
+.EE
+.PP
+
+.B Example 2:
+Displaying environment variables:
+.PP
+.EX
+$ env
+PATH=/usr/local/bin:/usr/bin:/bin
+HOME=/home/user
+$
+.EE
+.PP
+
+.B Example 3:
+Exiting the shell
+.PP
+.EX
+$ exit
+.EE
+
+.SH FILES
+.BR sh(1),
+.BR execve (2),
+.BR _getenv (3),
+.BR getline (3)
+
+.SH AUTHOR
+Written by Madjiguene Elodie Mbaye and Mame Penda Sadio
